@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K Preetham Adithya — Software Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F1019;
+    --surface: #1B1C2A;
+    --surface-2: #23243590;
+    --line: #2E2F42;
+    --text: #EDEDF7;
+    --text-dim: #8A8BA3;
+    --violet: #A78BFA;
+    --green: #86EFAC;
+    --blue: #7DD3FC;
+    --orange: #FDBA74;
+    --pink: #F472B6;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before{
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(167,139,250,0.10), transparent 40%),
+      radial-gradient(circle at 85% 25%, rgba(125,211,252,0.08), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(134,239,172,0.06), transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(15,16,25,0.75);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height: 64px;
+  }
+  .logo{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:600; font-size: 0.95rem; color: var(--green);
+    display:flex; align-items:center; gap:6px;
+  }
+  .logo .caret{ color: var(--violet); }
+  .navlinks{ display:flex; gap: 28px; font-family:'JetBrains Mono', monospace; font-size: 0.85rem; }
+  .navlinks a{ color: var(--text-dim); transition: color .2s; position:relative; }
+  .navlinks a:hover{ color: var(--text); }
+  .navlinks a::before{ content: attr(data-tag); color: var(--violet); margin-right: 4px; }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: 100px 0 80px; position:relative; z-index:1; }
+  .hero-grid{ display:grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items:center; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--blue);
+    letter-spacing: 0.06em; margin-bottom: 18px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity: .35; } }
+
+  h1{
+    font-family:'JetBrains Mono', monospace;
+    font-size: clamp(2.1rem, 4vw, 3.15rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+  h1 span{ color: var(--violet); }
+  .hero p.lead{
+    color: var(--text-dim); font-size: 1.05rem; max-width: 46ch; margin-bottom: 32px;
+  }
+  .cta-row{ display:flex; gap: 14px; flex-wrap: wrap; }
+  .btn{
+    font-family:'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 600;
+    padding: 13px 22px; border-radius: 8px; display:inline-flex; align-items:center; gap:8px;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    border: 1px solid transparent;
+  }
+  .btn-primary{ background: linear-gradient(135deg, var(--violet), var(--pink)); color: #0F1019; }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 30px -8px rgba(167,139,250,0.55); }
+  .btn-ghost{ border-color: var(--line); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+  /* code editor mock */
+  .editor{
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .editor-tab{
+    display:flex; align-items:center; gap: 8px;
+    padding: 12px 16px; border-bottom: 1px solid var(--line);
+    background: #17182450;
+    font-family:'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-dim);
+  }
+  .editor-tab .file{ display:flex; align-items:center; gap:8px; background: var(--bg); padding: 6px 12px; border-radius: 6px 6px 0 0; border:1px solid var(--line); border-bottom:none; color: var(--text); }
+  .editor-tab .file::before{ content:'●'; color: var(--orange); font-size: 0.6rem; }
+  .editor-body{
+    padding: 22px 24px 26px; font-family:'JetBrains Mono', monospace; font-size: 0.86rem;
+    line-height: 1.9;
+  }
+  .ln{ color: #4A4B63; display:inline-block; width: 22px; user-select:none; }
+  .kw{ color: var(--violet); }
+  .fn{ color: var(--blue); }
+  .str{ color: var(--green); }
+  .num{ color: var(--orange); }
+  .cm{ color: #5C5D78; }
+  .punc{ color: var(--text-dim); }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{ padding: 90px 0; position: relative; z-index: 1; border-top: 1px solid var(--line); }
+  .sec-head{ margin-bottom: 48px; }
+  .sec-tag{
+    font-family:'JetBrains Mono', monospace; color: var(--text-dim); font-size: 0.85rem; margin-bottom: 10px;
+  }
+  .sec-tag .fn{ color: var(--blue); }
+  .sec-tag .punc{ color: var(--text-dim); }
+  h2{
+    font-family:'JetBrains Mono', monospace; font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 700;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+  .about-grid p{ color: var(--text-dim); margin-bottom: 16px; font-size: 1rem; }
+  .about-grid strong{ color: var(--text); font-weight: 600; }
+
+  .commit-log{ position:relative; padding-left: 26px; }
+  .commit-log::before{ content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background: linear-gradient(var(--violet), var(--green)); opacity: .4; }
+  .commit{ position: relative; margin-bottom: 30px; }
+  .commit:last-child{ margin-bottom: 0; }
+  .commit::before{
+    content:''; position:absolute; left:-26px; top:4px; width:12px; height:12px; border-radius:50%;
+    background: var(--bg); border: 2px solid var(--green);
+  }
+  .commit .hash{ font-family:'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--orange); }
+  .commit h3{ font-size: 1rem; font-weight: 700; margin: 4px 0 4px; }
+  .commit .meta{ font-family:'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+  .commit .meta .stat{ color: var(--green); }
+
+  /* ---------- SKILLS ---------- */
+  .skill-block{ margin-bottom: 30px; }
+  .skill-block:last-child{ margin-bottom: 0; }
+  .skill-block .label{ font-family:'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 14px; }
+  .skill-block .label .punc{ color: var(--violet); }
+  .tags{ display:flex; flex-wrap: wrap; gap: 10px; }
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size: 0.82rem;
+    padding: 8px 14px; border-radius: 7px; background: var(--surface);
+    border: 1px solid var(--line); color: var(--text);
+    transition: border-color .2s, transform .2s;
+  }
+  .tag:hover{ transform: translateY(-2px); }
+  .tag.c1{ border-color: rgba(167,139,250,0.5); color: var(--violet); }
+  .tag.c2{ border-color: rgba(134,239,172,0.5); color: var(--green); }
+  .tag.c3{ border-color: rgba(125,211,252,0.5); color: var(--blue); }
+  .tag.c4{ border-color: rgba(253,186,116,0.5); color: var(--orange); }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-bottom: 40px; }
+  .card{
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 26px; transition: transform .2s, border-color .2s, box-shadow .2s;
+    display:flex; flex-direction:column; height: 100%;
+  }
+  .card:hover{ transform: translateY(-4px); border-color: var(--violet); box-shadow: 0 20px 40px -20px rgba(167,139,250,0.35); }
+  .card-top{ display:flex; align-items:flex-start; justify-content:space-between; margin-bottom: 14px; }
+  .card h3{ font-size: 1.05rem; font-weight: 700; font-family:'JetBrains Mono', monospace; }
+  .card-icon{ color: var(--text-dim); transition: color .2s, transform .2s; }
+  .card:hover .card-icon{ color: var(--green); transform: translate(2px,-2px); }
+  .card p{ color: var(--text-dim); font-size: 0.92rem; margin-bottom: 18px; flex-grow:1; }
+  .card .tags{ gap: 8px; }
+  .card .tag{ padding: 5px 10px; font-size: 0.72rem; }
+
+  .more-row{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap: 16px;
+    background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 22px 26px;
+  }
+  .more-row .chips{ display:flex; gap:10px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+  .more-row .chips span{ background: var(--bg); padding: 5px 10px; border-radius: 6px; border: 1px solid var(--line); }
+
+  /* ---------- CONTACT ---------- */
+  .contact-box{
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 56px; text-align:center;
+  }
+  .contact-box h2{ margin-bottom: 14px; }
+  .contact-box p{ color: var(--text-dim); max-width: 50ch; margin: 0 auto 30px; }
+  .contact-links{ display:flex; gap: 16px; justify-content:center; flex-wrap: wrap; }
+
+  footer{ padding: 32px 0; text-align:center; font-family:'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+  footer .punc{ color: var(--violet); }
+
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .about-grid{ grid-template-columns: 1fr; gap: 40px; }
+    .proj-grid{ grid-template-columns: 1fr; }
+    .navlinks{ display:none; }
+    .contact-box{ padding: 36px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="caret">&gt;</span> preetham<span style="color:var(--text-dim)">@</span>dev</div>
+    <div class="navlinks">
+      <a href="#about" data-tag="01">about</a>
+      <a href="#skills" data-tag="02">skills</a>
+      <a href="#projects" data-tag="03">projects</a>
+      <a href="#contact" data-tag="04">contact</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> AVAILABLE FOR OPPORTUNITIES</div>
+        <h1>Building things that <span>compile</span>, <span>ship</span>, and <span>solve</span> real problems.</h1>
+        <p class="lead">I'm a software developer and B.Tech student exploring full-stack web apps, AI copilots, and everyday tools — one repo at a time.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#projects">View Projects →</a>
+          <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="editor" id="editor">
+        <div class="editor-tab"><div class="file">developer.js</div></div>
+        <div class="editor-body" id="typedCode"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="sec-head">
+          <div class="sec-tag"><span class="fn">function</span> <span class="punc">About()</span> {`{`}</div>
+          <h2>The short version</h2>
+        </div>
+        <p><strong>K Preetham Adithya</strong> — 20-year-old software developer based in Vijayawada, India, currently pursuing a B.Tech at <strong>VIT-AP University</strong>.</p>
+        <p>I spend most of my time writing JavaScript and Python — shipping small full-stack apps, experimenting with AI-assisted tooling like RAG copilots, and grinding daily coding problems in Java to stay sharp on fundamentals.</p>
+        <p>My GitHub has 45+ repositories, ranging from production-style apps to fast weekend builds. I like learning in public, and every repo is a step in that log.</p>
+      </div>
+
+      <div>
+        <div class="sec-tag" style="margin-bottom:18px;"><span class="cm">// education.log</span></div>
+        <div class="commit-log">
+          <div class="commit">
+            <div class="hash">#in-progress</div>
+            <h3>B.Tech, VIT-AP University</h3>
+            <div class="meta">CGPA <span class="stat">7.95</span> · currently pursuing</div>
+          </div>
+          <div class="commit">
+            <div class="hash">#completed</div>
+            <h3>Narayana College — Intermediate</h3>
+            <div class="meta">Aggregate <span class="stat">88.4%</span></div>
+          </div>
+          <div class="commit">
+            <div class="hash">#completed</div>
+            <h3>Narayana E.M. High School — SSC</h3>
+            <div class="meta">GPA <span class="stat">10 / 10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag"><span class="kw">import</span> {`{`} skills {`}`} <span class="punc">from</span> <span class="str">'./experience'</span></div>
+        <h2>What I work with</h2>
+      </div>
+
+      <div class="skill-block">
+        <div class="label"><span class="punc">const</span> languages =</div>
+        <div class="tags">
+          <span class="tag c1">JavaScript</span>
+          <span class="tag c2">Python</span>
+          <span class="tag c3">Java</span>
+          <span class="tag c4">HTML / CSS</span>
+        </div>
+      </div>
+
+      <div class="skill-block">
+        <div class="label"><span class="punc">const</span> areas =</div>
+        <div class="tags">
+          <span class="tag c1">Full-Stack Web Apps</span>
+          <span class="tag c2">MERN Stack</span>
+          <span class="tag c3">AI / RAG Tooling</span>
+          <span class="tag c4">Data Structures & Algorithms</span>
+          <span class="tag c1">UI Component Libraries</span>
+          <span class="tag c2">Git & GitHub</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag"><span class="fn">array</span><span class="punc">.</span><span class="fn">map</span><span class="punc">(</span>repo <span class="punc">=&gt;</span> repo<span class="punc">.</span>featured<span class="punc">)</span></div>
+        <h2>Featured projects</h2>
+      </div>
+
+      <div class="proj-grid">
+
+        <a class="card" href="https://github.com/Preetham-Adithya/kg-rag-copilot" target="_blank" rel="noopener">
+          <div class="card-top"><h3>kg-rag-copilot</h3><span class="card-icon">↗</span></div>
+          <p>A knowledge-graph powered RAG (retrieval-augmented generation) copilot — connecting structured knowledge with LLM-style querying.</p>
+          <div class="tags"><span class="tag c1">JavaScript</span><span class="tag c3">AI / RAG</span></div>
+        </a>
+
+        <a class="card" href="https://github.com/Preetham-Adithya/Growth-analytics-copilot" target="_blank" rel="noopener">
+          <div class="card-top"><h3>Growth-analytics-copilot</h3><span class="card-icon">↗</span></div>
+          <p>An analytics copilot concept for surfacing growth metrics and insights through a conversational, assistant-style interface.</p>
+          <div class="tags"><span class="tag c1">JavaScript</span><span class="tag c3">Analytics</span></div>
+        </a>
+
+        <a class="card" href="https://github.com/Preetham-Adithya/task-manager-app" target="_blank" rel="noopener">
+          <div class="card-top"><h3>task-manager-app</h3><span class="card-icon">↗</span></div>
+          <p>A full-stack task management application for creating, organizing, and tracking daily tasks and to-dos.</p>
+          <div class="tags"><span class="tag c1">Full-Stack</span><span class="tag c2">Productivity</span></div>
+        </a>
+
+        <a class="card" href="https://github.com/Preetham-Adithya/Component-Library" target="_blank" rel="noopener">
+          <div class="card-top"><h3>Component-Library</h3><span class="card-icon">↗</span></div>
+          <p>A reusable UI component library — reusable building blocks for faster, consistent front-end development.</p>
+          <div class="tags"><span class="tag c1">JavaScript</span><span class="tag c4">UI Kit</span></div>
+        </a>
+
+        <a class="card" href="https://github.com/Preetham-Adithya/Cross-Domain" target="_blank" rel="noopener">
+          <div class="card-top"><h3>Cross-Domain</h3><span class="card-icon">↗</span></div>
+          <p>A Python project exploring cross-domain knowledge mapping — linking concepts across different subject areas.</p>
+          <div class="tags"><span class="tag c2">Python</span><span class="tag c3">Research</span></div>
+        </a>
+
+        <a class="card" href="https://github.com/Preetham-Adithya/Daily-Coding-Problems" target="_blank" rel="noopener">
+          <div class="card-top"><h3>Daily-Coding-Problems</h3><span class="card-icon">↗</span></div>
+          <p>An ongoing log of daily coding problem solutions in Java — sharpening data structures and algorithms fundamentals.</p>
+          <div class="tags"><span class="tag c4">Java</span><span class="tag c2">DSA</span></div>
+        </a>
+
+      </div>
+
+      <div class="more-row">
+        <div>
+          <div class="sec-tag" style="margin-bottom:6px;"><span class="cm">// smaller builds & experiments</span></div>
+          <div class="chips">
+            <span>Tic-Tac-Toe</span>
+            <span>Flappy-Bird</span>
+            <span>StopWatch</span>
+            <span>Currency-Calci</span>
+            <span>Password-Strength-Checker</span>
+            <span>+ MERN practice repos</span>
+          </div>
+        </div>
+        <a class="btn btn-ghost" href="https://github.com/Preetham-Adithya?tab=repositories" target="_blank" rel="noopener">See all 45 repos →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <div class="sec-tag" style="justify-content:center; display:flex;"><span class="kw">return</span> <span class="punc">(</span><span class="str">"let's connect"</span><span class="punc">)</span></div>
+        <h2>Let's build something together</h2>
+        <p>Open to internships, collaborations, and interesting problems. Reach out on GitHub or LinkedIn — I check both.</p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="https://github.com/Preetham-Adithya" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/preetham-aditya" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span class="punc">//</span> built by K Preetham Adithya — 2026</div>
+</footer>
+
+<script>
+  const codeLines = [
+    { html: '<span class="kw">const</span> <span class="fn">developer</span> <span class="punc">=</span> <span class="punc">{</span>' },
+    { html: '&nbsp;&nbsp;name: <span class="str">"K Preetham Adithya"</span>,' },
+    { html: '&nbsp;&nbsp;role: <span class="str">"Software Developer"</span>,' },
+    { html: '&nbsp;&nbsp;age: <span class="num">20</span>,' },
+    { html: '&nbsp;&nbsp;basedIn: <span class="str">"Vijayawada, India"</span>,' },
+    { html: '&nbsp;&nbsp;education: <span class="str">"B.Tech @ VIT-AP"</span>,' },
+    { html: '&nbsp;&nbsp;repos: <span class="num">45</span><span class="punc">+</span>,' },
+    { html: '&nbsp;&nbsp;<span class="cm">// always learning</span>' },
+    { html: '<span class="punc">};</span>' }
+  ];
+
+  const container = document.getElementById('typedCode');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderAllLines(){
+    container.innerHTML = codeLines.map((l,i) =>
+      `<div><span class="ln">${i+1}</span>${l.html}</div>`
+    ).join('');
+  }
+
+  if (reduceMotion) {
+    renderAllLines();
+  } else {
+    let i = 0;
+    function typeNextLine(){
+      if (i >= codeLines.length){ return; }
+      const div = document.createElement('div');
+      div.innerHTML = `<span class="ln">${i+1}</span>${codeLines[i].html}`;
+      div.style.opacity = '0';
+      div.style.transform = 'translateY(4px)';
+      div.style.transition = 'opacity .25s ease, transform .25s ease';
+      container.appendChild(div);
+      requestAnimationFrame(() => {
+        div.style.opacity = '1';
+        div.style.transform = 'translateY(0)';
+      });
+      i++;
+      setTimeout(typeNextLine, 160);
+    }
+    setTimeout(typeNextLine, 300);
+  }
+</script>
+
+</body>
+</html>
